@@ -1,0 +1,52 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [18.168233, 49.829288]
+        },
+        "properties": {
+          "name": "Vjezd 1",
+          "description": "Vjezd na parkoviště.",
+          "image": "https://via.placeholder.com/150"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [18.166, 49.827],
+            [18.168, 49.828],
+            [18.168, 49.829]
+          ]
+        },
+        "properties": {
+          "name": "Vjezd k parkovišti",
+          "description": "Hlavní příjezdová cesta.",
+          "image": "https://via.placeholder.com/150"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [[
+            [18.167, 49.828],
+            [18.170, 49.828],
+            [18.170, 49.830],
+            [18.167, 49.830],
+            [18.167, 49.828]
+          ]]
+        },
+        "properties": {
+          "name": "Parkoviště 1",
+          "description": "Velké parkoviště u centra.",
+          "image": "https://via.placeholder.com/150"
+        }
+      }
+    ]
+  }
+  

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa parkování</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-sm bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/Park_King_ vol1.png" style="width:100px;" class="rounded-pill">
+            </a>
+            <div class="d-flex">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Úvod</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="map.html">Mapa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="form.html">Přidat místo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="mb-3 m-3">
+        <div class="btn-group" role="group" aria-label="Filtrování vrstev">
+            <input type="checkbox" class="btn-check" id="togglePoints" checked>
+            <label class="btn btn-outline-primary" for="togglePoints">Body</label>
+
+            <input type="checkbox" class="btn-check" id="toggleLines" checked>
+            <label class="btn btn-outline-primary" for="toggleLines">Linie</label>
+
+            <input type="checkbox" class="btn-check" id="togglePolygons" checked>
+            <label class="btn btn-outline-primary" for="togglePolygons">Polygony</label>
+        </div>
+    </div>
+
+    <div id="map" style="height: 75vh;">
+      
+    </div>
+
+
+    <footer style="padding-top: 10%;">
+        <p>&copy; 2025 Parkovací Webová Mapa | Autor: Adam Hujar huj0018 </p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script/map.js"></script>
+</body>
+
+
+</html>
