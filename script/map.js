@@ -8,103 +8,198 @@ var map = new L.map('map', mapOptions);
 var basemap = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 map.addLayer(basemap);
 
-//============================== Layer Groups ==============================
+// Samostatné vrstvy pro různé typy geometrie
 var pointLayer = L.layerGroup().addTo(map);
 var lineLayer = L.layerGroup().addTo(map);
 var polygonLayer = L.layerGroup().addTo(map);
 
-// Funkce pro přidání GeoJSON dat do vrstev
+// Funkce pro opravu nevalidního GeoJSON
+function fixGeoJSON(geojson) {
+    if (!geojson || !geojson.features) return geojson;
+    geojson.features = geojson.features.map(feature => {
+        if (feature.geometry && feature.geometry.tyspe) {
+            feature.geometry.type = feature.geometry.tyspe;
+            delete feature.geometry.tyspe;
+            console.warn("Opraven překlep 'tyspe' na 'type' v geometrii:", feature.properties.name);
+        }
+        return feature;
+    });
+    return geojson;
+}
+
+// Funkce pro přidání GeoJSON dat do příslušných vrstev
 function addGeoJSONToLayers(geojson) {
-    L.geoJSON(geojson, {
-        onEachFeature: function (feature, layer) {
-            let props = feature.properties || {};
-            let popupContent = `<b>${props.name || "Bez názvu"}</b><br>`;
-            if (props.image) {
-                popupContent += `<img src="${props.image}" width="150" height="100"><br>`;
-            }
-            if (props.description) {
-                popupContent += `${props.description}<br>`;
-            }
+    pointLayer.clearLayers();
+    lineLayer.clearLayers();
+    polygonLayer.clearLayers();
 
-            if (feature.geometry.type === "Point") {
-                const coords = feature.geometry.coordinates;
-                const lat = coords[1];
-                const lng = coords[0];
-                const googleMapsNavUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-                const mapyCzLink = `https://mapy.cz/zakladni?source=coor&id=${lng},${lat}`;
+    if (!geojson || !Array.isArray(geojson.features)) {
+        console.error("Neplatný GeoJSON objekt:", geojson);
+        return;
+    }
 
-                popupContent += `
-                    <a href="${googleMapsNavUrl}" target="_blank">Navigace (Google Maps)</a><br>
-                    <a href="${mapyCzLink}" target="_blank">Zobrazit v Mapy.cz</a>
-                `;
-            }
-
-            layer.bindPopup(popupContent);
-            if (props.name) {
-                layer.bindTooltip(props.name, { permanent: false, direction: "right" });
-            }
-
-            // Přidání do správné vrstvy
+    geojson.features.forEach(feature => {
+        try {
+            let targetLayer;
             switch (feature.geometry.type) {
                 case "Point":
-                    pointLayer.addLayer(layer);
+                    targetLayer = pointLayer;
                     break;
                 case "LineString":
-                    lineLayer.addLayer(layer);
+                    targetLayer = lineLayer;
                     break;
                 case "Polygon":
-                case "MultiPolygon":
-                    polygonLayer.addLayer(layer);
+                    targetLayer = polygonLayer;
                     break;
+                default:
+                    console.warn("Neznámý typ geometrie:", feature.geometry.type);
+                    return;
             }
+
+            L.geoJSON(feature, {
+                onEachFeature: function(feat, layer) {
+                    let props = feat.properties || {};
+                    let popupContent = `<b>${props.name || "Bez názvu"}</b><br>`;
+                    
+                    if (props.image) {
+                        popupContent += `<img src="${props.image}" width="150" height="100"><br>`;
+                    }
+                    if (props.description) {
+                        popupContent += `${props.description}<br>`;
+                    }
+
+                    if (feat.geometry.type === "Point") {
+                        const coords = feat.geometry.coordinates;
+                        const lat = coords[1];
+                        const lng = coords[0];
+                        popupContent += `
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank">Navigace (Google Maps)</a><br>
+                            <a href="https://mapy.cz/zakladni?source=coor&id=${lng},${lat}" target="_blank">Zobrazit v Mapy.cz</a>
+                        `;
+                    }
+
+                    layer.bindPopup(popupContent);
+                    if (props.name) {
+                        layer.bindTooltip(props.name, { permanent: false, direction: "right" });
+                    }
+                },
+                filter: function(feat) {
+                    const featureType = feat.properties?.typ;
+                    return !featureType || filters[featureType] === true;
+                }
+            }).addTo(targetLayer);
+        } catch (e) {
+            console.error("Chyba při zpracování feature:", feature, e);
         }
     });
 }
 
-//============================== Načtení GeoJSON ==============================
+// Načtení GeoJSON
+let combinedGeojson = {
+    "type": "FeatureCollection",
+    "features": []
+};
 
-// Načtení dat z data/map.geojson
-fetch("data/map.geojson")
-    .then(response => {
-        if (!response.ok) {
-            return { type: "FeatureCollection", features: [] }; // Pokud soubor neexistuje
-        }
-        return response.json();
-    })
-    .then(geojsonFromFile => {
-        // Načtení dat z localStorage
-        let geojsonFromLocalStorage = JSON.parse(localStorage.getItem('parkingData')) || {
-            "type": "FeatureCollection",
-            "features": []
-        };
+function loadAndCombineGeoJSON() {
+    fetch("data/map.geojson")
+        .then(response => {
+            if (!response.ok) {
+                console.warn("Soubor map.geojson nenalezen, vracím prázdný GeoJSON");
+                return { type: "FeatureCollection", features: [] };
+            }
+            return response.json();
+        })
+        .then(geojsonFromFile => {
+            let geojsonFromLocalStorage;
+            try {
+                geojsonFromLocalStorage = JSON.parse(localStorage.getItem('parkingData')) || {
+                    "type": "FeatureCollection",
+                    "features": []
+                };
+            } catch (e) {
+                console.warn("Chyba při parsování localStorage, použiji prázdný objekt:", e);
+                geojsonFromLocalStorage = { "type": "FeatureCollection", "features": [] };
+            }
 
-        // Kombinace dat z obou zdrojů
-        let combinedGeojson = {
-            "type": "FeatureCollection",
-            "features": [...geojsonFromFile.features, ...geojsonFromLocalStorage.features]
-        };
+            const fileFeatures = Array.isArray(geojsonFromFile.features) ? geojsonFromFile.features : [];
+            const localFeatures = Array.isArray(geojsonFromLocalStorage.features) ? geojsonFromLocalStorage.features : [];
 
-        // Přidání kombinovaných dat do vrstev
-        addGeoJSONToLayers(combinedGeojson);
+            combinedGeojson = {
+                "type": "FeatureCollection",
+                "features": [...fileFeatures, ...localFeatures]
+            };
 
-        // Přizpůsobení zobrazení podle dat
-        if (combinedGeojson.features.length > 0) {
-            const allLayers = L.featureGroup([pointLayer, lineLayer, polygonLayer]);
-            map.fitBounds(allLayers.getBounds());
-        }
-    })
-    .catch(err => console.error("Chyba při načítání GeoJSON:", err));
+            combinedGeojson = fixGeoJSON(combinedGeojson);
+            addGeoJSONToLayers(combinedGeojson);
 
-//============================== Filtrování vrstev ==============================
+            if (combinedGeojson.features.length > 0) {
+                const bounds = L.featureGroup([pointLayer, lineLayer, polygonLayer]).getBounds();
+                if (bounds.isValid()) {
+                    map.fitBounds(bounds);
+                }
+            }
+        })
+        .catch(err => console.error("Chyba při načítání GeoJSON:", err));
+}
 
-document.getElementById("togglePoints").addEventListener("change", function () {
-    this.checked ? map.addLayer(pointLayer) : map.removeLayer(pointLayer);
+// Filtrování podle typu (školní, nemocnice, atd.)
+const filters = {
+    'školní': true,
+    'nemocnice': true,
+    'obchody': true,
+    'otevřené': true
+};
+
+// Kontrolní panel filtrů podle typu
+const filterControl = L.control({ position: 'topright' });
+filterControl.onAdd = function(map) {
+    const div = L.DomUtil.create('div', 'filter-control leaflet-bar');
+    div.innerHTML = `
+        <div style="background:white; padding:10px;">
+            <label><input type="checkbox" class="filter-checkbox" value="školní" checked> Školní</label><br>
+            <label><input type="checkbox" class="filter-checkbox" value="nemocnice" checked> Nemocnice</label><br>
+            <label><input type="checkbox" class="filter-checkbox" value="obchody" checked> Obchody</label><br>
+            <label><input type="checkbox" class="filter-checkbox" value="otevřené" checked> Otevřené</label><br>
+        </div>
+    `;
+
+    L.DomEvent.disableClickPropagation(div);
+    
+    div.querySelectorAll('.filter-checkbox').forEach(cb => {
+        cb.addEventListener('change', function() {
+            filters[this.value] = this.checked;
+            addGeoJSONToLayers(combinedGeojson);
+        });
+    });
+
+    return div;
+};
+filterControl.addTo(map);
+
+// Přidání posluchačů pro tlačítka zobrazení/schování vrstev
+document.getElementById('togglePoints').addEventListener('change', function() {
+    if (this.checked) {
+        map.addLayer(pointLayer);
+    } else {
+        map.removeLayer(pointLayer);
+    }
 });
 
-document.getElementById("toggleLines").addEventListener("change", function () {
-    this.checked ? map.addLayer(lineLayer) : map.removeLayer(lineLayer);
+document.getElementById('toggleLines').addEventListener('change', function() {
+    if (this.checked) {
+        map.addLayer(lineLayer);
+    } else {
+        map.removeLayer(lineLayer);
+    }
 });
 
-document.getElementById("togglePolygons").addEventListener("change", function () {
-    this.checked ? map.addLayer(polygonLayer) : map.removeLayer(polygonLayer);
+document.getElementById('togglePolygons').addEventListener('change', function() {
+    if (this.checked) {
+        map.addLayer(polygonLayer);
+    } else {
+        map.removeLayer(polygonLayer);
+    }
 });
+
+// Inicializace mapy
+loadAndCombineGeoJSON();

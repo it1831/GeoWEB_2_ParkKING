@@ -1,52 +1,395 @@
 {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [18.168233, 49.829288]
-        },
-        "properties": {
-          "name": "Vjezd 1",
-          "description": "Vjezd na parkoviště.",
-          "image": "https://via.placeholder.com/150"
-        }
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.168233,
+          49.829288
+        ]
       },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [18.166, 49.827],
-            [18.168, 49.828],
-            [18.168, 49.829]
-          ]
-        },
-        "properties": {
-          "name": "Vjezd k parkovišti",
-          "description": "Hlavní příjezdová cesta.",
-          "image": "https://via.placeholder.com/150"
-        }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [[
-            [18.167, 49.828],
-            [18.170, 49.828],
-            [18.170, 49.830],
-            [18.167, 49.830],
-            [18.167, 49.828]
-          ]]
-        },
-        "properties": {
-          "name": "Parkoviště 1",
-          "description": "Velké parkoviště u centra.",
-          "image": "https://via.placeholder.com/150"
-        }
+      "properties": {
+        "name": "Vjezd 1",
+        "description": "Vjezd na parkoviště.",
+        "image": "https://via.placeholder.com/150"
       }
-    ]
-  }
-  
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            18.166,
+            49.827
+          ],
+          [
+            18.168,
+            49.828
+          ],
+          [
+            18.168,
+            49.829
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Vjezd k parkovišti",
+        "description": "Hlavní příjezdová cesta.",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              18.167,
+              49.828
+            ],
+            [
+              18.170,
+              49.828
+            ],
+            [
+              18.170,
+              49.830
+            ],
+            [
+              18.167,
+              49.830
+            ],
+            [
+              18.167,
+              49.828
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1651,
+          49.8312
+        ]
+      },
+      "properties": {
+        "name": "Školní parkoviště 1",
+        "typ": "školní",
+        "description": "Parkoviště u ZŠ A",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1642,
+          49.8325
+        ]
+      },
+      "properties": {
+        "name": "Školní parkoviště 2",
+        "typ": "školní",
+        "description": "Parkoviště u SŠ B",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1630,
+          49.8300
+        ]
+      },
+      "properties": {
+        "name": "Školní parkoviště 3",
+        "typ": "školní",
+        "description": "Parkoviště u VŠ C",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1618,
+          49.8318
+        ]
+      },
+      "properties": {
+        "name": "Školní parkoviště 4",
+        "typ": "školní",
+        "description": "Parkoviště u jazykové školy",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1605,
+          49.8329
+        ]
+      },
+      "properties": {
+        "name": "Školní parkoviště 5",
+        "typ": "školní",
+        "description": "Parkoviště u střední školy D",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1628,
+          49.8301
+        ]
+      },
+      "properties": {
+        "name": "Parkoviště FN 1",
+        "typ": "nemocnice",
+        "description": "Parkoviště u FN Ostrava",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1607,
+          49.8295
+        ]
+      },
+      "properties": {
+        "name": "Parkoviště FN 2",
+        "typ": "nemocnice",
+        "description": "Parkování pro návštěvy",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1612,
+          49.8282
+        ]
+      },
+      "properties": {
+        "name": "Parkoviště FN 3",
+        "typ": "nemocnice",
+        "description": "Zaměstnanecké parkoviště",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1620,
+          49.8271
+        ]
+      },
+      "properties": {
+        "name": "Parkoviště FN 4",
+        "typ": "nemocnice",
+        "description": "Před urgentem",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1645,
+          49.8279
+        ]
+      },
+      "properties": {
+        "name": "Parkoviště FN 5",
+        "typ": "nemocnice",
+        "description": "Dlouhodobé stání",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1695,
+          49.8290
+        ]
+      },
+      "properties": {
+        "name": "Obchodní centrum 1",
+        "typ": "obchody",
+        "description": "Galerie - hlavní parkoviště",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1700,
+          49.8280
+        ]
+      },
+      "properties": {
+        "name": "Obchodní centrum 2",
+        "typ": "obchody",
+        "description": "PARK Dubina",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1711,
+          49.8275
+        ]
+      },
+      "properties": {
+        "name": "Obchodní centrum 3",
+        "typ": "obchody",
+        "description": "Tesco Poruba",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1722,
+          49.8260
+        ]
+      },
+      "properties": {
+        "name": "Obchodní centrum 4",
+        "typ": "obchody",
+        "description": "Albert Poruba",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1733,
+          49.8252
+        ]
+      },
+      "properties": {
+        "name": "Obchodní centrum 5",
+        "typ": "obchody",
+        "description": "Globus",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1701,
+          49.8275
+        ]
+      },
+      "properties": {
+        "name": "Veřejné parkoviště 1",
+        "typ": "otevřené",
+        "description": "Bez omezení",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1690,
+          49.8268
+        ]
+      },
+      "properties": {
+        "name": "Veřejné parkoviště 2",
+        "typ": "otevřené",
+        "description": "Blízko centra",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1683,
+          49.8259
+        ]
+      },
+      "properties": {
+        "name": "Veřejné parkoviště 3",
+        "typ": "otevřené",
+        "description": "Zadarmo",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1675,
+          49.8251
+        ]
+      },
+      "properties": {
+        "name": "Veřejné parkoviště 4",
+        "typ": "otevřené",
+        "description": "Bezčasové",
+        "image": "https://via.placeholder.com/150"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          18.1667,
+          49.8243
+        ]
+      },
+      "properties": {
+        "name": "Veřejné parkoviště 5",
+        "typ": "otevřené",
+        "description": "Na okraji",
+        "image": "https://via.placeholder.com/150"
+      }
+    }
+  ]
+}

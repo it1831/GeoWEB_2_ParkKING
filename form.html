@@ -38,12 +38,11 @@
     <form id="featureForm">
         <div>
             <div>
-                <a href="https://www.google.cz/maps/" class="link-primary link-opacity-50-hover">Odkaz na google maps pro rychlejší získávání souřadnic</a>
-                    <div class="mb-3 m-3">
-                        <label for="type">
-                            <b>Typ objektu:</b>
-                        </label>
-                    </div>
+                <div class="mb-3 m-3">
+                    <label for="type">
+                        <b>Typ objektu:</b>
+                    </label>
+                </div>
                 <select id="type" required class="btn btn-primary mb-3 m-3">
                     <option value="point">Bod</option>
                     <option value="line">Linie</option>
@@ -85,9 +84,10 @@
             <textarea class="form-control" id="coordinates" required rows="3" cols="40"></textarea>
 
         </div>
-        <div>
+        <div style="padding-bottom: 10%;">
             <button type="submit" class="btn btn-primary">Vytvořit GeoJSON </button>
         </div>
+
     </form>
 
     <footer>
